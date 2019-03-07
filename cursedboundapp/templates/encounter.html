@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cursed Images as Earthbound Encounters</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<div style="background-image: url('{{ background_url }}');" class="cursedimage"></div>
+
+<audio autoplay loop>
+    <source src="{{ song_mpeg_url }}" type="audio/mpeg">
+    <source src="{{ song_ogg_url }}" type="audio/ogg">
+</audio>
+
+<a href="/">
+    <img src="{% static 'status.png' %}" class="statusbar">
+</a>
+
+
+</body>
+</html>
