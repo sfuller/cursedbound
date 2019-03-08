@@ -3,22 +3,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cursed Images as Earthbound Encounters</title>
+    <title>Cursed Images But With Earthbound Music</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
 
-<div style="background-image: url('{{ background_url }}');" class="cursedimage"></div>
+<body>
+    <div id="playbutton" class="playbutton hidden"><span>▶</span></div>
 
-<audio autoplay loop>
-    <source src="{{ song_mpeg_url }}" type="audio/mpeg">
-    <source src="{{ song_ogg_url }}" type="audio/ogg">
-</audio>
+    <div id="cursedimage" class="cursedimage hidden" style="background-image: url('{{ background_url }}');"></div>
 
-<a href="/">
-    <img src="{% static 'status.png' %}" class="statusbar">
-</a>
+    <audio id="song" loop>
+        <source src="{{ song_mpeg_url }}" type="audio/mpeg">
+        <source src="{{ song_ogg_url }}" type="audio/ogg">
+    </audio>
 
+    <a href="/">
+        <img src="{% static 'status.png' %}" class="statusbar">
+    </a>
 
 </body>
+<script type="text/javascript" src="{% static 'googlechromeisthenewie.js' %}"></script>
 </html>

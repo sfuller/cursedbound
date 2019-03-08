@@ -28,6 +28,9 @@ SECRET_KEY = os.environ.get('CURSEDBOUND_SECRET_KEY', 'debug' if DEBUG else '')
 hosts = os.environ.get('CURSEDBOUND_HOSTS', '').split(';')
 ALLOWED_HOSTS = [host.strip() for host in hosts]
 
+if DEBUG:
+    ALLOWED_HOSTS.append('localhost')
+
 
 # Application definition
 
