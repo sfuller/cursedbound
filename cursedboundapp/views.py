@@ -1,8 +1,8 @@
 import random
 from typing import Optional, Tuple
 
-from django.http import HttpRequest
-from django.shortcuts import render
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render, redirect
 
 from cursedboundapp.models import Encounter
 
@@ -11,8 +11,7 @@ SESSION_KEY_ENCOUNTER_INDEX = 'encounter_index'
 SESSION_KEY_ENCOUNTERS = 'encounters'
 
 
-def encounter(request: HttpRequest) -> None:
-
+def encounter(request) -> HttpResponse:
     encounters = request.session.get(SESSION_KEY_ENCOUNTERS)
     encounter_index = int(request.session.get(SESSION_KEY_ENCOUNTER_INDEX, 0))
     all_encounters: Optional[Tuple[Encounter]] = None
@@ -35,7 +34,29 @@ def encounter(request: HttpRequest) -> None:
     if encounter_index >= len(encounters):
         request.session[SESSION_KEY_ENCOUNTERS] = None
 
+    return render_encounter(request, encounter)
+
+
+def specific_encounter(request: HttpRequest, *, id: str) -> HttpResponse:
+    def do_redirect():
+        return redirect('random')
+
+    try:
+        int_id = int(id)
+    except (ValueError, TypeError):
+        return do_redirect()
+
+    try:
+        encounter = Encounter.objects.get(pk=id)
+    except Encounter.DoesNotExist:
+        return redirect('random')
+
+    return render_encounter(request, encounter)
+
+
+def render_encounter(request: HttpRequest, encounter: Encounter) -> HttpResponse:
     context = {
+        'image_link': encounter.background.link,
         'background_url': encounter.background.image.url,
         'song_mpeg_url': encounter.song.mpeg_file.url,
         'song_ogg_url': encounter.song.ogg_file.url

@@ -18,5 +18,6 @@ from django.urls import path
 from cursedboundapp import views
 
 urlpatterns = [
-    path('', views.encounter)
+    path('', views.encounter, name='random'),
+    path('<id>', views.specific_encounter)
 ]

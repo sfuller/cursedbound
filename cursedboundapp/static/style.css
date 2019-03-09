@@ -18,6 +18,12 @@ body {
     height: 100%;
 }
 
+.cursedimage a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
 .statusbar {
     width: 500px;
     position: fixed;

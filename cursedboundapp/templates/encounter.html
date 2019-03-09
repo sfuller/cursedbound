@@ -11,7 +11,11 @@
 <body>
     <div id="playbutton" class="playbutton hidden"><span>▶</span></div>
 
-    <div id="cursedimage" class="cursedimage hidden" style="background-image: url('{{ background_url }}');"></div>
+    <div id="cursedimage" class="cursedimage hidden" style="background-image: url('{{ background_url }}');">
+    {% if image_link %}
+        <a href="{{ image_link }}" target="_blank" rel="noopener noreferrer"></a>
+    {% endif %}
+    </div>
 
     <audio id="song" loop>
         <source src="{{ song_mpeg_url }}" type="audio/mpeg">
@@ -23,5 +27,5 @@
     </a>
 
 </body>
-<script type="text/javascript" src="{% static 'googlechromeisthenewie.js' %}"></script>
+<script type="text/javascript" src="{% static 'cursedbound.js' %}"></script>
 </html>
