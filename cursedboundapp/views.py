@@ -1,5 +1,5 @@
 import random
-from typing import Optional
+from typing import Optional, Tuple
 
 from django.http import HttpRequest
 from django.shortcuts import render
@@ -7,23 +7,33 @@ from django.shortcuts import render
 from cursedboundapp.models import Encounter
 
 
-SESSION_KEY_LAST_ENCOUNTER_INDEX = 'last_encounter_index'
+SESSION_KEY_ENCOUNTER_INDEX = 'encounter_index'
+SESSION_KEY_ENCOUNTERS = 'encounters'
 
 
 def encounter(request: HttpRequest) -> None:
 
-    last_encounter: Optional[int] = request.session.get(SESSION_KEY_LAST_ENCOUNTER_INDEX)
+    encounters = request.session.get(SESSION_KEY_ENCOUNTERS)
+    encounter_index = int(request.session.get(SESSION_KEY_ENCOUNTER_INDEX, 0))
+    all_encounters: Optional[Tuple[Encounter]] = None
 
-    all_encounters = tuple(Encounter.objects.all())
-    encounter_count = len(all_encounters)
-    index = random.randrange(0, encounter_count)
+    if encounters is None:
+        all_encounters = tuple(Encounter.objects.all())
+        encounter_count = len(all_encounters)
+        encounters = list(range(encounter_count))
+        random.shuffle(encounters)
+        request.session[SESSION_KEY_ENCOUNTERS] = encounters
+        encounter_index = 0
 
-    if last_encounter is not None and index == last_encounter:
-        index = (index + 1) % encounter_count
+    if all_encounters is None:
+        all_encounters = tuple(Encounter.objects.all())
 
-    request.session[SESSION_KEY_LAST_ENCOUNTER_INDEX] = index
+    encounter: Encounter = all_encounters[encounters[encounter_index]]
+    encounter_index += 1
+    request.session[SESSION_KEY_ENCOUNTER_INDEX] = encounter_index
 
-    encounter: Encounter = all_encounters[index]
+    if encounter_index >= len(encounters):
+        request.session[SESSION_KEY_ENCOUNTERS] = None
 
     context = {
         'background_url': encounter.background.image.url,
