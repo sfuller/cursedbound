@@ -19,8 +19,15 @@ from django.urls import path, include
 
 import cursedboundapp.urls
 from cursedbound import settings
+from cursedbound.settings import DEBUG
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include(cursedboundapp.urls))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = []
+
+if DEBUG:
+    urlpatterns.append(path('admin/', admin.site.urls))
+
+urlpatterns.extend((
+    path('', include(cursedboundapp.urls)),
+))
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

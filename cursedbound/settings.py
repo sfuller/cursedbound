@@ -35,7 +35,6 @@ if DEBUG:
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -43,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cursedboundapp'
 ]
+
+# Admin is only enabled in debug mode for now.
+if DEBUG:
+    INSTALLED_APPS.append('django.contrib.admin')
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

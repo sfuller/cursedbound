@@ -1,11 +1,10 @@
 import random
 from typing import Optional, Tuple
 
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 
-from cursedboundapp.models import Encounter
-
+from cursedboundapp.models import Encounter, Game
 
 SESSION_KEY_ENCOUNTER_INDEX = 'encounter_index'
 SESSION_KEY_ENCOUNTERS = 'encounters'
@@ -54,12 +53,21 @@ def specific_encounter(request: HttpRequest, *, id: str) -> HttpResponse:
     return render_encounter(request, encounter)
 
 
+STATUS_BAR_FILES = {
+    Game.EARTHBOUND: 'status.png',
+    Game.MOTHER: 'mother_status.png',
+    Game.MOTHER3: 'mother3_status.png'
+}
+
+
 def render_encounter(request: HttpRequest, encounter: Encounter) -> HttpResponse:
+
     context = {
         'image_link': encounter.background.link,
         'background_url': encounter.background.image.url,
         'song_mpeg_url': encounter.song.mpeg_file.url,
-        'song_ogg_url': encounter.song.ogg_file.url
+        'song_ogg_url': encounter.song.ogg_file.url,
+        'statusbar_file': STATUS_BAR_FILES[Game(encounter.song.game)]
     }
 
     return render(request, 'encounter.html', context)

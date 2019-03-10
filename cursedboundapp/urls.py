@@ -19,5 +19,5 @@ from cursedboundapp import views
 
 urlpatterns = [
     path('', views.encounter, name='random'),
-    path('<id>', views.specific_encounter)
+    path('<int:id>', views.specific_encounter, name='specific_encounter'),
 ]

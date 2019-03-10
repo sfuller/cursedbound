@@ -2,6 +2,7 @@ import io
 
 from django.contrib import admin
 from django.contrib.admin import register
+from django.urls import reverse
 from pydub import AudioSegment
 
 from cursedboundapp.models import Background, Song, Encounter
@@ -10,6 +11,10 @@ from cursedboundapp.models import Background, Song, Encounter
 @register(Background)
 class BackgroundAdmin(admin.ModelAdmin):
     list_display = ('display_name',)
+
+    def view_on_site(self, obj):
+        encounter = Encounter.objects.get(background=obj)
+        return reverse('specific_encounter', kwargs={'id': encounter.pk})
 
 
 @register(Song)
@@ -35,3 +40,6 @@ class EncounterAdmin(admin.ModelAdmin):
 
     def display_name(self, obj: Encounter):
         return obj.background.display_name
+
+    def view_on_site(self, obj):
+        return reverse('specific_encounter', kwargs={'id': obj.pk})
