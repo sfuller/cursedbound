@@ -5,16 +5,20 @@
     <meta charset="UTF-8">
     <title>Cursed Images But With Earthbound Music</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+{#    Not using React.. yet #}
+{#    {%  if production %}#}
+{#        <script src="{% static 'react.production.min.js' %}" type="text/javascript" defer></script>#}
+{#        <script src="{% static 'react-dom.production.min.js' %}" type="text/javascript" defer></script>#}
+{#    {% else %}#}
+{#        <script src="{% static 'react.development.js' %}" type="text/javascript" defer></script>#}
+{#        <script src="{% static 'react-dom.development.js' %}" type="text/javascript" defer></script>#}
+{#    {% endif %}#}
+    <script type="text/javascript" src="{% static 'cursedbound.js' %}" defer></script>
 </head>
-<body>
-
 <body>
     <div id="playbutton" class="playbutton hidden"><span>▶</span></div>
 
     <div id="cursedimage" class="cursedimage hidden" style="background-image: url('{{ background_url }}');">
-    {% if image_link %}
-        <a href="{{ image_link }}" target="_blank" rel="noopener noreferrer"></a>
-    {% endif %}
     </div>
 
     <audio id="song" loop>
@@ -26,6 +30,18 @@
         <img src="{% static statusbar_file %}" class="statusbar">
     </a>
 
+    <input id="image_id_input" style="display: none;" type="text" value="{{ image_id }}"/>
+
+    <div id="react_root">
+        <div class="links">
+            <a class="link" target="_blank" href="https://github.com/sfuller/cursedbound">About
+            <a class="link" href="{{ suggestions_link }}">Suggestions
+            <a class="link" href="javascript:void(0);" onclick="copy_permalink_to_clipboard()">Link
+            {% if image_link %}
+                <a class="link" href="{{ image_link }}">Context
+            {% endif %}
+            </a>
+        </div>
+    </div>
 </body>
-<script type="text/javascript" src="{% static 'cursedbound.js' %}"></script>
 </html>

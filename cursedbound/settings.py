@@ -134,3 +134,5 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     'cursedboundapp/static'
 ]
+
+CURSEDBOUND_SUGGESTIONS_URL = os.environ.get('CURSEDBOUND_SUGGESTIONS_URL', '')

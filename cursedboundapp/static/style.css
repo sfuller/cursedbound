@@ -1,4 +1,11 @@
 
+@font-face {
+    font-family: 'OrangeKid-Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: url('./orangekid.woff') format('woff');
+}
+
 html {
     height: 100%;
 }
@@ -50,4 +57,41 @@ div.playbutton span {
 
 .hidden {
     visibility: hidden;
+}
+
+div#react_root {
+    position: absolute;
+    top: 0;
+}
+
+a.link {
+    font-family: 'OrangeKid-Regular';
+    color: white;
+    font-size: 24px;
+    margin: 24px;
+
+    text-shadow: 2px 2px 0 black;
+    text-decoration: none;
+}
+
+a.link::before {
+    height: 24px;
+    display: inline-block;
+    width: 12px;
+    content: '';
+    vertical-align: middle;
+    margin-right: 6px;
+
+    animation: blink 0.35s steps(2, jump-none) infinite;
+}
+
+a.link:hover::before {
+    background-image: url(./cursor.png);
+    background-size: 24px;
+    background-repeat: no-repeat;
+}
+
+@keyframes blink {
+  0% { background-position-x: -0px; }
+  100% { background-position-x: -12px; }
 }

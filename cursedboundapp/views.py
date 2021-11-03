@@ -1,6 +1,7 @@
 import random
 from typing import Optional, Tuple
 
+import django.conf
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 
@@ -64,6 +65,8 @@ def render_encounter(request: HttpRequest, encounter: Encounter) -> HttpResponse
 
     context = {
         'image_link': encounter.background.link,
+        'image_id': encounter.pk,
+        'suggestions_link': django.conf.settings.CURSEDBOUND_SUGGESTIONS_URL,
         'background_url': encounter.background.image.url,
         'song_mpeg_url': encounter.song.mpeg_file.url,
         'song_ogg_url': encounter.song.ogg_file.url,
